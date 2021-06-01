@@ -13,6 +13,7 @@
 #  at your option any later version. This program is distributed in the
 #  hope that it will be useful, but WITHOUT ANY WARRANTY.
 
+CONFIG_FILE="${HOME}/.config/psxrip"
 PSXDIR=$HOME/psxrip
 DRIVE=/dev/sr0
 
@@ -57,6 +58,10 @@ available in PATH.
 EOSTREAM
 }
 
+
+if [ -e "${HOME}/.config/psxrip" ] ; then
+	source "${CONFIG_FILE}"
+fi 
 
 # go through provided parameters
 while [ "${1}" != "" ]; do
