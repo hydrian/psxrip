@@ -27,5 +27,4 @@ s paces in the filename are prohibited!
 >  --slow-rip    Slows down CD-ROM reader to it minimum read speed to get a 
 >                better quality rip. This slows ripping process. (Recommeneded)>
 
-This tool requires cdrdao (http://cdrdao.sourceforge.net/) and wodim to be installed and
-available in PATH.
+This tool requires cdrdao (http://cdrdao.sourceforge.net/) and wodim to be installed and available in PATH.
