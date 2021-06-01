@@ -36,7 +36,7 @@ cat << EOSTREAM
 Script for ripping PSX game discs into .bin files with corresponding .cue files.
 
 Usage:
-  $(basename ${0}) [{--outputdir} <value>] [{--drive} <value>] [{--no-subchan] [{--help|-h}] [filename]
+  $(basename ${0}) [{--outputdir} <value>] [{--drive} <value>] [{--no-subchan] [{--help|-h}] [--slow-rip] ][filename]
 
 The parameter [filename] is mandatory. Without it, the script will abort. Plain
 spaces in the filename are prohibited!
