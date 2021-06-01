@@ -119,6 +119,10 @@ if ! [ -d "$PSXDIR" ]; then
 	echo "outputdir not found, creating folder: "$PSXDIR
 	echo ""
 	mkdir -p $PSXDIR
+	if [ $? -ne 0 ] ; then
+		echo "Failed to create ${PSXDIR}" 1>&2
+		exit 2
+	fi
 fi
 
 echo "starting ripping the disc"
