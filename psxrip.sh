@@ -57,6 +57,7 @@ available in PATH.
 EOSTREAM
 }
 
+
 # go through provided parameters
 while [ "${1}" != "" ]; do
 	if [ "${1}" = "--drive" ]; then
@@ -81,6 +82,12 @@ while [ "${1}" != "" ]; do
 		shift
 	fi
 done
+
+#input checking
+if [ ! -e "${DRIVE}" ] ; then
+	echo "Optical drive ${DRIVE} not found" 1>&2
+	exit 2
+fi  
 
 # check for required dependencies
 which cdrdao &> /dev/null ||
