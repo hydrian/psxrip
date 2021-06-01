@@ -142,8 +142,17 @@ echo "starting ripping the disc"
 echo ""
 # final commandline for reading the disc and creating the image
 if [ "$NOSUBCHAN" = "true" ]; then
-	cdrdao read-cd --read-raw --datafile $PSXDIR/$IMAGENAME.bin --device $DRIVE --driver generic-mmc-raw $PSXDIR/$IMAGENAME.toc
-else
-	cdrdao read-cd --read-raw --read-subchan rw_raw --datafile $PSXDIR/$IMAGENAME.bin --device $DRIVE --driver generic-mmc-raw $PSXDIR/$IMAGENAME.toc
+	SUBCHANSTR='--read-subchan rw_raw'
 fi
+cdrdao read-cd --read-raw --datafile $PSXDIR/$IMAGENAME.bin --device $DRIVE --driver generic-mmc-raw $PSXDIR/$IMAGENAME.toc ${SUBCHANSTR}
+if [ $? -ne 0 ] ; then
+	echo "Failed to dump PSX image" 1>&2
+	exit 2
+fi
+echo "Generating CUE file"
 toc2cue $PSXDIR/$IMAGENAME.toc $PSXDIR/$IMAGENAME.cue
+if [ $? -ne 0 ] ; then
+	echo "Failed to convert toc to cue" 1>&2
+	exit 2
+fi 
+
