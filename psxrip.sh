@@ -17,6 +17,10 @@ CONFIG_FILE="${HOME}/.config/psxrip"
 PSXDIR=$HOME/psxrip
 DRIVE=/dev/sr0
 
+########################
+### Support Function ###
+########################
+
 report_absent_tool()
 {
 	echo "$1 is not present in PATH. $(basename ${0}) requires it in order to work properly."
@@ -52,11 +56,22 @@ Available switches:
                 If the folder does not exist, it will be created. If no
                 --outputdir parameter is given, the folder ~/psxrip will be
                 used.
+  --slow-rip    Slows down CD-ROM reader to it minimum read speed to get a 
+                better quality rip. This slows ripping process. (Recommeneded)
 
 This tool requires cdrdao (http://cdrdao.sourceforge.net/) to be installed and
 available in PATH.
 EOSTREAM
 }
+
+### Get min CD-Rom read speed ###
+function get-cdr-min-speed {
+	 CDROM_MIN_SPEED=$(CDR_DEVICE=${DRIVE} wodim -prcap |egrep 'Current[[:space:]]+read[[:space:]]+'|sed -r 's/^.*CD[[:space:]]+([[:digit:]]+)x.*$/\1/')
+	 echo $CDROM_MIN_SPEED
+	 return 0
+}
+	
+
 
 
 if [ -e "${HOME}/.config/psxrip" ] ; then
@@ -77,6 +92,8 @@ while [ "${1}" != "" ]; do
 	elif [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; then
 		print_help
 		exit 0
+	elif [ "${1}" = "--slow-rip" ] ; then
+		$SLOWRIP=true
 	elif [ "${2}" != "" ] ; then
 		echo "ERROR: Inval id usage. Displaying help:"
 		echo ""
@@ -97,6 +114,9 @@ fi
 # check for required dependencies
 which cdrdao &> /dev/null ||
 	report_absent_tool cdrdao 'http://cdrdao.sourceforge.net/'
+	
+which hdparm &> /dev/null || 
+	report_adsent_tool hdparm "https://sourceforge.net/projects/hdparm/"
 
 # output recognized parameters
 echo "Program "$(basename ${0})" called. The following parameters will be used for"
@@ -144,6 +164,15 @@ echo ""
 if [ "$NOSUBCHAN" = "true" ]; then
 	SUBCHANSTR='--read-subchan rw_raw'
 fi
+
+
+if ($SLOWRIP) ; then
+	echo "Setting CD-ROM drive to slow speed for ripping"
+	$CDR_SPEED=$(get-cdr-min-speed)
+	hdparm -E${CDR_SPEED} "${DRIVE}"
+fi
+	
+
 cdrdao read-cd --read-raw --datafile $PSXDIR/$IMAGENAME.bin --device $DRIVE --driver generic-mmc-raw $PSXDIR/$IMAGENAME.toc ${SUBCHANSTR}
 if [ $? -ne 0 ] ; then
 	echo "Failed to dump PSX image" 1>&2
