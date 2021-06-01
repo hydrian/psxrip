@@ -93,7 +93,7 @@ while [ "${1}" != "" ]; do
 		print_help
 		exit 0
 	elif [ "${1}" = "--slow-rip" ] ; then
-		$SLOWRIP=true
+		SLOWRIP=true
 	elif [ "${2}" != "" ] ; then
 		echo "ERROR: Inval id usage. Displaying help:"
 		echo ""
