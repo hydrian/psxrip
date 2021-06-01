@@ -130,6 +130,14 @@ if ! [ -d "$PSXDIR" ]; then
 	fi
 fi
 
+# Check device mount status
+mount|egrep --quiet "${DRIVE}\ on"
+if [ $? -eq 0 ] ; then
+	echo "${DRIVE} is mounted. Please unmount." 1>&2
+	exit 2
+fi
+	
+
 echo "starting ripping the disc"
 echo ""
 # final commandline for reading the disc and creating the image
