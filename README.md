@@ -4,7 +4,7 @@ Bash script to backup Playstation (PSX) games in Linux
 Script for ripping PSX game discs into .bin files with corresponding .cue files.
 
 > Usage:
->  psxrip.sh [{--outputdir} <value>] [{--drive} <value>] [{--no-subchan] [{--help|-h}] [filename]
+>  psxrip.sh [{--outputdir} <value>] [{--drive} <value>] [{--no-subchan] [{--help|-h}] [--slow-rip] [filename]
 >
 > The parameter [filename] is mandatory. Without it, the script will abort. Plain
 s paces in the filename are prohibited!
