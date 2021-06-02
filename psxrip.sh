@@ -169,7 +169,7 @@ fi
 
 if ($SLOWRIP) ; then
 	echo "Setting CD-ROM drive to slow speed for ripping"
-	$CDR_SPEED=$(get-cdr-min-speed)
+	CDR_SPEED=$(get-cdr-min-speed)
 	hdparm -E${CDR_SPEED} "${DRIVE}"
 fi
 	
