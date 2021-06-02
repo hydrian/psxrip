@@ -174,13 +174,13 @@ if ($SLOWRIP) ; then
 fi
 	
 
-cdrdao read-cd --read-raw --datafile $PSXDIR/$IMAGENAME.bin --device $DRIVE --driver generic-mmc-raw $PSXDIR/$IMAGENAME.toc ${SUBCHANSTR}
+cdrdao read-cd --read-raw --datafile "$PSXDIR/$IMAGENAME.bin" --device $DRIVE --driver generic-mmc-raw "$PSXDIR/$IMAGENAME.toc" ${SUBCHANSTR}
 if [ $? -ne 0 ] ; then
 	echo "Failed to dump PSX image" 1>&2
 	exit 2
 fi
 echo "Generating CUE file"
-toc2cue $PSXDIR/$IMAGENAME.toc $PSXDIR/$IMAGENAME.cue
+toc2cue "$PSXDIR/$IMAGENAME.toc" "$PSXDIR/$IMAGENAME.cue"
 if [ $? -ne 0 ] ; then
 	echo "Failed to convert toc to cue" 1>&2
 	exit 2
