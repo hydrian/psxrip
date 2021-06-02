@@ -24,6 +24,7 @@ s paces in the filename are prohibited!
 >                If the folder does not exist, it will be created. If no
 >                --outputdir parameter is given, the folder ~/psxrip will be
 >                used.
+>
 >  --slow-rip    Slows down CD-ROM reader to it minimum read speed to get a 
 >                better quality rip. This slows ripping process. (Recommeneded)>
 
