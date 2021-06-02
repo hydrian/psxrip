@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #
 #  This is a script to create a .bin image with corresponding .cue out of your
 #  PSX game discs as backup and/or for usage with emulators.
@@ -94,6 +94,7 @@ while [ "${1}" != "" ]; do
 		exit 0
 	elif [ "${1}" = "--slow-rip" ] ; then
 		SLOWRIP=true
+		shift 1
 	elif [ "${2}" != "" ] ; then
 		echo "ERROR: Inval id usage. Displaying help:"
 		echo ""
