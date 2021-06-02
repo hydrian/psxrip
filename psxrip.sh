@@ -116,8 +116,6 @@ fi
 which cdrdao &> /dev/null ||
 	report_absent_tool cdrdao 'http://cdrdao.sourceforge.net/'
 	
-which hdparm &> /dev/null || 
-	report_adsent_tool hdparm "https://sourceforge.net/projects/hdparm/"
 
 # output recognized parameters
 echo "Program "$(basename ${0})" called. The following parameters will be used for"
@@ -168,6 +166,10 @@ fi
 
 
 if ($SLOWRIP) ; then
+	which hdparm &> /dev/null || 
+		report_adsent_tool hdparm "https://sourceforge.net/projects/hdparm/"
+	which hdparm &> /dev/null || 
+		report_adsent_tool wodom ""
 	echo "Setting CD-ROM drive to slow speed for ripping"
 	CDR_SPEED=$(get-cdr-min-speed)
 	hdparm -E${CDR_SPEED} "${DRIVE}"
