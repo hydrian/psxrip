@@ -58,10 +58,10 @@ Available switches:
                 If the folder does not exist, it will be created. If no
                 --outputdir parameter is given, the folder ~/psxrip will be
                 used.
-  --slow-rip    Slows down CD-ROM reader to it minimum read speed to get a 
-                better quality rip. This slows ripping process. (Recommeneded)
+  --slow-rip    Slows down CD-ROM reader to x2 speed to get a better quality rip. 
+  				(Recommended)
   --use-raw-driver  Uses generic-mmc-raw instead of generic-mmc:0x20000 driver
-                    (not-recommended)
+                    (not-recommended) Here for legacy reasons. 
 
 This tool requires cdrdao (http://cdrdao.sourceforge.net/) to be installed and
 available in PATH.
@@ -169,19 +169,13 @@ echo ""
 # final commandline for reading the disc and creating the image
 if [ "$SUBCHAN" = "true" ]; then
 	SUBCHANSTR='--read-subchan rw_raw'
-else 
-	SUBCHANSTR=''
 fi
 
 
 if ($SLOWRIP) ; then
-	which hdparm &> /dev/null || 
-		report_adsent_tool hdparm "https://sourceforge.net/projects/hdparm/"
-	which hdparm &> /dev/null || 
-		report_adsent_tool wodom ""
-	echo "Setting CD-ROM drive to slow speed for ripping"
-	CDR_SPEED=$(get-cdr-min-speed)
-	hdparm -E${CDR_SPEED} "${DRIVE}"
+	CDR_SPEED=2
+	READ_SPEED_STR="--rspeed ${CDR_SPEED}"
+	echo "Setting CD-ROM drive to slow speed (${CDR_SPEED}x) for ripping"
 fi
 
 if ($USE_RAW_DRIVER) ; then
@@ -190,15 +184,16 @@ else
 	DRIVER="generic-mmc:0x20000"	
 fi
 
-cdrdao read-cd --read-raw --datafile "$PSXDIR/$IMAGENAME.bin" --device $DRIVE --driver "$DRIVER" "$PSXDIR/$IMAGENAME.toc" ${SUBCHANSTR}
+cdrdao read-cd $READ_SPEED_STR --read-raw --datafile "$PSXDIR/$IMAGENAME.bin" --device "$DRIVE" --driver "$DRIVER" ${SUBCHANSTR} "$PSXDIR/$IMAGENAME.toc" 
 if [ $? -ne 0 ] ; then
 	echo "Failed to dump PSX image" 1>&2
 	exit 2
 fi
+
 echo "Generating CUE file"
 toc2cue "$PSXDIR/$IMAGENAME.toc" "$PSXDIR/$IMAGENAME.cue"
 if [ $? -ne 0 ] ; then
 	echo "Failed to convert toc to cue" 1>&2
 	exit 2
-fi 
-
+fi
+exit 0
