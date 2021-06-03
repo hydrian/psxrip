@@ -17,6 +17,7 @@ CONFIG_FILE="${HOME}/.config/psxrip"
 PSXDIR=$HOME/psxrip
 DRIVE=/dev/sr0
 SUBCHAN=true
+USE_RAW_DRIVER=false
 
 ########################
 ### Support Function ###
@@ -37,7 +38,7 @@ cat << EOSTREAM
 Script for ripping PSX game discs into .bin files with corresponding .cue files.
 
 Usage:
-  $(basename ${0}) [{--outputdir} <value>] [{--drive} <value>] [--no-subchan] [{--help|-h}] [--slow-rip] ][filename]
+  $(basename ${0}) [{--outputdir} <value>] [{--drive} <value>] [--no-subchan] [--use-raw-driver] [{--help|-h}] [--slow-rip] ][filename]
 
 The parameter [filename] is mandatory. Without it, the script will abort. Plain
 spaces in the filename are prohibited!
@@ -59,6 +60,8 @@ Available switches:
                 used.
   --slow-rip    Slows down CD-ROM reader to it minimum read speed to get a 
                 better quality rip. This slows ripping process. (Recommeneded)
+  --use-raw-driver  Uses generic-mmc-raw instead of generic-mmc:0x20000 driver
+                    (not-recommended)
 
 This tool requires cdrdao (http://cdrdao.sourceforge.net/) to be installed and
 available in PATH.
@@ -95,6 +98,9 @@ while [ "${1}" != "" ]; do
 		exit 0
 	elif [ "${1}" = "--slow-rip" ] ; then
 		SLOWRIP=true
+		shift 1
+	elif [ "${1}" = "--use-raw-driver" ] ; then
+		USE_RAW_DRIVER=true
 		shift 1
 	elif [ "${2}" != "" ] ; then
 		echo "ERROR: Inval id usage. Displaying help:"
@@ -177,9 +183,14 @@ if ($SLOWRIP) ; then
 	CDR_SPEED=$(get-cdr-min-speed)
 	hdparm -E${CDR_SPEED} "${DRIVE}"
 fi
-	
 
-cdrdao read-cd --read-raw --datafile "$PSXDIR/$IMAGENAME.bin" --device $DRIVE --driver generic-mmc-raw "$PSXDIR/$IMAGENAME.toc" ${SUBCHANSTR}
+if ($USE_RAW_DRIVER) ; then
+	DRIVER="generic-mmc-raw"
+else 
+	DRIVER="generic-mmc:0x20000"	
+fi
+
+cdrdao read-cd --read-raw --datafile "$PSXDIR/$IMAGENAME.bin" --device $DRIVE --driver "$DRIVER" "$PSXDIR/$IMAGENAME.toc" ${SUBCHANSTR}
 if [ $? -ne 0 ] ; then
 	echo "Failed to dump PSX image" 1>&2
 	exit 2
