@@ -25,8 +25,8 @@ s paces in the filename are prohibited!
 >                	--outputdir parameter is given, the folder ~/psxrip will be
 >                	used.
 >
->  --slow-rip    	Slows down CD-ROM reader to it minimum read speed to get a 
->                	better quality rip. This slows ripping process. (Recommended)
+>  --slow-rip    	Slows down CD-ROM reader to 2x to get a better quality rip. This slows ripping process. (Recommended)
+>
 >  --use-raw-driver Uses generic-mmc-raw instead of generic-mmc:0x20000 driver (not-recommended)
 
 This tool are required to be installed and available in PATH.
