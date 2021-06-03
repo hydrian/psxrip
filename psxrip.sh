@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 #
 #  This is a script to create a .bin image with corresponding .cue out of your
 #  PSX game discs as backup and/or for usage with emulators.
