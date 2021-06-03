@@ -16,6 +16,7 @@
 CONFIG_FILE="${HOME}/.config/psxrip"
 PSXDIR=$HOME/psxrip
 DRIVE=/dev/sr0
+SUBCHAN=true
 
 ########################
 ### Support Function ###
@@ -87,7 +88,7 @@ while [ "${1}" != "" ]; do
 		PSXDIR=$2
 		shift 2
 	elif [ "${1}" = "--no-subchan" ]; then
-		NOSUBCHAN="true"
+		SUBCHAN="false"
 		shift 1
 	elif [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; then
 		print_help
@@ -160,8 +161,10 @@ fi
 echo "starting ripping the disc"
 echo ""
 # final commandline for reading the disc and creating the image
-if [ "$NOSUBCHAN" = "true" ]; then
+if [ "$SUBCHAN" = "true" ]; then
 	SUBCHANSTR='--read-subchan rw_raw'
+else 
+	SUBCHANSTR=''
 fi
 
 
