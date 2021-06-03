@@ -27,7 +27,7 @@ s paces in the filename are prohibited!
 >
 >  --slow-rip    	Slows down CD-ROM reader to 2x to get a better quality rip. This slows ripping process. (Recommended)
 >
->  --use-raw-driver Uses generic-mmc-raw instead of generic-mmc:0x20000 driver (not-recommended)
+>  --use-raw-driver Uses generic-mmc-raw instead of generic-mmc:0x20000 driver (not-recommended) Here for legacy reasons.
 
 This tool are required to be installed and available in PATH.
  * cdrdao (http://cdrdao.sourceforge.net/) 
