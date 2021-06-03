@@ -31,7 +31,12 @@ s paces in the filename are prohibited!
 
 This tool are required to be installed and available in PATH.
  * cdrdao (http://cdrdao.sourceforge.net/) 
+
 ## Installation
  1. Download psxrip.sh to machine with CD/DVD drive
  1. chmod +x psxrip.sh
  1. ./psxrip.sh PARAMETERS ... or put psxrip.sh in your $PATH
+
+## Images tested with
+  * ePSXe 2.0.5 (64-bit)
+  
