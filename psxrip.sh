@@ -18,6 +18,8 @@ PSXDIR=$HOME/psxrip
 DRIVE=/dev/sr0
 SUBCHAN=true
 USE_RAW_DRIVER=false
+SLOWRIP=true
+UMOUNT=true
 
 ########################
 ### Support Function ###
@@ -38,7 +40,7 @@ cat << EOSTREAM
 Script for ripping PSX game discs into .bin files with corresponding .cue files.
 
 Usage:
-  $(basename ${0}) [{--outputdir} <value>] [{--drive} <value>] [--no-subchan] [--use-raw-driver] [{--help|-h}] [--slow-rip] ][filename]
+  $(basename ${0}) [{--outputdir} <value>] [{--drive} <value>] [--disable-subchan] [--use-raw-driver] [{--help|-h}] [--slow-rip] ][filename]
 
 The parameter [filename] is mandatory. Without it, the script will abort. Plain
 spaces in the filename are prohibited!
@@ -49,19 +51,21 @@ Available switches:
 
   --help / -h   Displays this help text.
 
-  --no-subchan  Don't extract subchannel data. Subchannel data might be
-                required for some PSX copy protection though it *could* create
-                problems. Retry with this parameter set if any problems occur
-                when trying to use the resulting image.
+  --disable-subchan  Don't extract subchannel data. Subchannel data might be
+                     required for some PSX copy protection though it *could* create
+                     problems. Retry with this parameter set if any problems occur
+                     when trying to use the resulting image.
 
-  --outputdir   Define the folder in which the resulting image should be saved.
-                If the folder does not exist, it will be created. If no
-                --outputdir parameter is given, the folder ~/psxrip will be
-                used.
-  --slow-rip    Slows down CD-ROM reader to x2 speed to get a better quality rip. 
-  				(Recommended)
-  --use-raw-driver  Uses generic-mmc-raw instead of generic-mmc:0x20000 driver
-                    (not-recommended) Here for legacy reasons. 
+  --outputdir        Define the folder in which the resulting image should be saved.
+                     If the folder does not exist, it will be created. If no
+                     --outputdir parameter is given, the folder ~/psxrip will be
+                     used.
+  --enable-fast-rip  Runs CD-ROM reader at full speed to get a faster rip but lower 
+                     quality 
+  				     (Not Recommended)
+  --use-raw-driver   Uses generic-mmc-raw instead of generic-mmc:0x20000 driver
+                     (Not Recommended) Here for legacy reasons. 
+  --disable-umount   Disables automatic unmount of mounted DRIVE if mount is detected. 
 
 This tool requires cdrdao (http://cdrdao.sourceforge.net/) to be installed and
 available in PATH.
@@ -90,18 +94,21 @@ while [ "${1}" != "" ]; do
 	elif [ "${1}" = "--outputdir" ]; then
 		PSXDIR=$2
 		shift 2
-	elif [ "${1}" = "--no-subchan" ]; then
+	elif [ "${1}" = "--disable-subchan" ]; then
 		SUBCHAN="false"
 		shift 1
 	elif [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; then
 		print_help
 		exit 0
-	elif [ "${1}" = "--slow-rip" ] ; then
-		SLOWRIP=true
+	elif [ "${1}" = "--enable-fast-rip" ] ; then
+		SLOWRIP=false
 		shift 1
 	elif [ "${1}" = "--use-raw-driver" ] ; then
 		USE_RAW_DRIVER=true
 		shift 1
+	elif [ "${1}" = "--disable-umount" ] ; then
+		UMOUNT=false
+		shift
 	elif [ "${2}" != "" ] ; then
 		echo "ERROR: Inval id usage. Displaying help:"
 		echo ""
@@ -159,8 +166,18 @@ fi
 # Check device mount status
 mount|egrep --quiet "${DRIVE}\ on"
 if [ $? -eq 0 ] ; then
-	echo "${DRIVE} is mounted. Please unmount." 1>&2
-	exit 2
+	if ($UMOUNT) ; then
+		umount "${DRIVE}"
+		if [ $? -eq 0 ] ; then
+			echo "Unmounted ${DRIVE}"
+		else
+			echo "Failed to unmount ${DRIVE}" 1>&2
+			exit 2
+		fi
+	else 
+		echo "${DRIVE} is mounted. Please unmount." 1>&2
+		exit 2
+	fi
 fi
 	
 
