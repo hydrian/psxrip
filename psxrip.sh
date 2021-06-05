@@ -201,7 +201,7 @@ else
 	DRIVER="generic-mmc:0x20000"	
 fi
 
-cdrdao read-cd $READ_SPEED_STR --read-raw --datafile "$PSXDIR/$IMAGENAME.bin" --device "$DRIVE" --driver "$DRIVER" ${SUBCHANSTR} "$PSXDIR/$IMAGENAME.toc" 
+cdrdao read-cd -v 3 $READ_SPEED_STR --read-raw --datafile "$PSXDIR/$IMAGENAME.bin" --device "$DRIVE" --driver "$DRIVER" ${SUBCHANSTR} "$PSXDIR/$IMAGENAME.toc" 
 if [ $? -ne 0 ] ; then
 	echo "Failed to dump PSX image" 1>&2
 	exit 2
