@@ -20,6 +20,7 @@ SUBCHAN=true
 USE_RAW_DRIVER=false
 SLOWRIP=true
 UMOUNT=true
+EJECT_ON_DONE=true
 
 ########################
 ### Support Function ###
@@ -213,4 +214,5 @@ if [ $? -ne 0 ] ; then
 	echo "Failed to convert toc to cue" 1>&2
 	exit 2
 fi
+($EJECT_ON_DONE) && eject "${DRIVE}"
 exit 0
