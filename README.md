@@ -43,6 +43,11 @@ This tool are required to be installed and available in PATH.
  1. chmod +x psxrip.sh
  1. ./psxrip.sh PARAMETERS ... or put psxrip.sh in your $PATH
 
+## Configuration
+ 1. Copy psxrip.example.conf to $HOME/.config/psxrip.conf
+ 1. chmod o+rw $HOME/.config/psxrip.conf
+ 1. Edit file for your specific needs
+
 ## Images tested with
   * ePSXe 2.0.5 (64-bit)
   
