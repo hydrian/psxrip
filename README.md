@@ -11,7 +11,7 @@ s paces in the filename are prohibited!
 >
 >Available switches:
 >  --drive       		Define the device to be used. If this parameter is not
->                		provided, /dev/sr0 will be used.
+>                		provided, /dev/cdrom will be used.
 >
 >  --help / -h   		Displays this help text.
 >
@@ -32,6 +32,8 @@ s paces in the filename are prohibited!
 >  --disable-umount		Disables automatic unmount of mounted DRIVE if mount is detected. 
 >
 >  --use-raw-driver 	Uses generic-mmc-raw instead of generic-mmc:0x20000 driver (not-recommended) Here for legacy reasons.
+>
+>  --disable-eject      Disables CD-ROM eject on a successful rip
 
 This tool are required to be installed and available in PATH.
  * cdrdao (http://cdrdao.sourceforge.net/) 

@@ -14,8 +14,8 @@
 #  hope that it will be useful, but WITHOUT ANY WARRANTY.
 
 CONFIG_FILE="${HOME}/.config/psxrip"
-PSXDIR=$HOME/psxrip
-DRIVE=/dev/sr0
+PSXDIR="${HOME}/psxrip"
+DRIVE="/dev/cdrom"
 SUBCHAN=true
 USE_RAW_DRIVER=false
 SLOWRIP=true
@@ -48,7 +48,7 @@ spaces in the filename are prohibited!
 
 Available switches:
   --drive       Define the device to be used. If this parameter is not
-                provided, /dev/sr0 will be used.
+                provided, /dev/cdrom will be used.
 
   --help / -h   Displays this help text.
 
@@ -67,7 +67,8 @@ Available switches:
   --use-raw-driver   Uses generic-mmc-raw instead of generic-mmc:0x20000 driver
                      (Not Recommended) Here for legacy reasons. 
   --disable-umount   Disables automatic unmount of mounted DRIVE if mount is detected. 
-
+  --disable-eject    Disables CD-ROM eject on a successful rip
+  
 This tool requires cdrdao (http://cdrdao.sourceforge.net/) to be installed and
 available in PATH.
 EOSTREAM
@@ -110,6 +111,9 @@ while [ "${1}" != "" ]; do
 	elif [ "${1}" = "--disable-umount" ] ; then
 		UMOUNT=false
 		shift
+	elif [ "${1}" = "--disable-eject" ] ; then
+		EJECT_ON_DONE=false
+		shift 1
 	elif [ "${2}" != "" ] ; then
 		echo "ERROR: Inval id usage. Displaying help:"
 		echo ""
