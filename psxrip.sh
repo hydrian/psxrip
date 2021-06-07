@@ -13,7 +13,7 @@
 #  at your option any later version. This program is distributed in the
 #  hope that it will be useful, but WITHOUT ANY WARRANTY.
 
-CONFIG_FILE="${HOME}/.config/psxrip"
+CONFIG_FILE="${HOME}/.config/psxrip.conf"
 PSXDIR="${HOME}/psxrip"
 DRIVE="/dev/cdrom"
 SUBCHAN=true
