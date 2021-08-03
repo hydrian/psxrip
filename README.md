@@ -7,7 +7,7 @@ Script for ripping PSX game discs into .bin files with corresponding .cue files.
 >  psxrip.sh [{--outputdir} <value>] [{--drive} <value>] [{--no-subchan] [{--help|-h}] [--enable-fast-rip] [--use-raw-driver] FILENAME
 >
 > The parameter FILENAME is mandatory. Without it, the script will abort. Plain
-s paces in the filename are prohibited!
+spaces in the filename are prohibited!
 >
 >Available switches:
 >  --drive       		Define the device to be used. If this parameter is not
