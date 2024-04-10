@@ -35,7 +35,7 @@ spaces in the filename are prohibited!
 >
 >  --disable-eject      Disables CD-ROM eject on a successful rip
 
-This tool are required to be installed and available in PATH.
+This tool requires the following to be installed and available in PATH.
  * cdrdao (http://cdrdao.sourceforge.net/) 
 
 ## Installation
